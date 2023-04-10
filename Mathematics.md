@@ -169,3 +169,68 @@ v = np.array([[6, 2, -3], [5, 1, 4], [2, 7, 1]])
 
 print(round(abs(np.linalg.det(v))))
 ```
+
+## Gaussian Reduction
+### Solution
+Read the algorithm and try to implement that
+
+### Code
+
+```python
+import numpy as np
+v1 = np.array([846835985, 9834798552])
+v2 = np.array([87502093, 123094980])
+m = -1
+while(m != 0):
+    if (np.dot(v2, v2) < np.dot(v1, v1)):
+        t = v1
+        v1 = v2
+        v2 = t
+    m = int((v1.dot(v2)) / (v1.dot(v1)))
+    if(m == 0):
+        print(v1.dot(v2))
+    v2 = v2 - m*v1
+```
+
+## Successive Powers
+### Solution
+`s = [588, 665, 216, 113, 642, 4, 836, 114, 851, 492, 819, 237]`
+
+We know that
+$$
+\begin{align*}
+{s_0} \cdot x &\equiv {s_1}\left( {\bmod p} \right)\\
+{s_1} \cdot x &\equiv {s_2}\left( {\bmod p} \right)\\
+{s_2} \cdot x &\equiv {s_3}\left( {\bmod p} \right)\\
+ &\;\;\vdots \\
+{s_{10}} \cdot x &\equiv {s_{11}}\left( {\bmod p} \right)
+\end{align*}
+$$
+$\Leftrightarrow$
+
+$$
+\begin{align*}
+x &\equiv {s_1} \cdot {s_0}^{ - 1}\left( {\bmod p} \right)\\
+x &\equiv {s_2} \cdot {s_1}^{ - 1}\left( {\bmod p} \right)\\
+x &\equiv {s_3} \cdot {s_2}^{ - 1}\left( {\bmod p} \right)\\
+ &\;\;\vdots \\
+x &\equiv {s_{11}} \cdot {s_{10}}^{ - 1}\left( {\bmod p} \right)
+\end{align*}
+$$
+Given `p` is three-digit number, you can brute force `p` to sovle `x`
+
+### Code
+
+```python
+from Crypto.Util.number import inverse
+
+s = [588, 665, 216, 113, 642, 4, 836, 114, 851, 492, 819, 237]
+
+pmn = max(s) + 1
+
+for p in range(pmn, 1000):
+    x = [(s[i] * inverse(s[i - 1], p)) % p for i in range(1, 12)]
+    if(len(set(x)) == 1):
+        print(x, p)
+        break
+```
