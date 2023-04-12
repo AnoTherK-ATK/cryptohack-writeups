@@ -4,4 +4,4 @@
 
 ## [Mathematics](Mathematics.md)
 
-## [Symmetric ciphers](Symmetric ciphers.md)
+## [Symmetric ciphers](Symmetric-ciphers.md)
