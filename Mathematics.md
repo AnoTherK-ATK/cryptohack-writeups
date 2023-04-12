@@ -234,3 +234,34 @@ for p in range(pmn, 1000):
         print(x, p)
         break
 ```
+
+## Adrien's Signs
+### Solution
+Notice that we can use Lengendre Symbol to solve because if it is quadrantic residue, the bit is 1 and otherwise.
+
+### Code
+
+```python
+arr = #Please input arr manually
+
+a = 288260533169915
+p = 1007621497415251
+
+cipher = ""
+for i in arr:
+    if(pow(i, (p - 1)//2, p) == 1):
+        cipher += "1"
+    else:
+        cipher += "0"
+
+
+for i in range(0, 224, 8):
+    binary = cipher[i:i + 8]
+    print(chr(int(binary,2)),end="")
+```
+
+## Modular Binomials
+### Solution
+Factordb for the `N` and you will get `p` and `q`
+
+![[modularbinomials.png]]
