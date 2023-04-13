@@ -536,4 +536,77 @@ for i in range(7, 26):
 ```
 >P/S: please use Colab
 
-##
+## Flipping Cookie
+### Solution
+The cookie will be `admin=False+;expiry={expires_at}`, we just care about `admin=False`.
+Like ECB CBC WTF, we have to seperate the iv and cookie
+
+```
+iv = cookie[:16]
+block1 = cookie[16:32]
+block2 = cookie[32:]
+```
+
+`block1` = `"admin=False" ^ iv`
+
+So if we want to make `admin = true`, we have to send `iv_tosend = iv ^ "admin=False" ^ "admin=True"`. When we send that, it will be `block1 ^ iv_tosend = "admin=False" ^ iv ^ iv ^ "admin=False" ^ "admin=True" = "admin=True"`
+
+And yes, the string have to be 16 bytes.
+
+### Code
+
+```python
+import requests
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+from pwn import xor
+
+cookie = bytes.fromhex("b94fcc1a9767e05dcd09eb6a984e2336cd51582c9cdd250bc97421a3ccf2b9e4c437fbfa94e0a54dba28b75381ebb30a")
+
+
+def response(block, iv):
+    url = "http://aes.cryptohack.org/flipping_cookie/check_admin/"
+    url += block.hex()
+    url += '/'
+    url += iv.hex()
+    url += "/"
+    r = requests.get(url)
+    js = r.json()
+    print(js)
+
+iv = cookie[:16]
+block1 = cookie[16:32]
+response(block1, xor(xor(b"admin=False;expi", pad(b"admin=True;", 16)), iv))
+```
+## Lazy CBC
+### Solution
+`return {"error": "Data length must be multiple of 16"}`
+So we have to input 16 bytes string to get the encrypted text.
+
+When get the hex input, cut it into 2 parts and xor them together.
+
+### Code
+
+```python
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+from pwn import xor
+
+
+def response(key):
+    url = "http://aes.cryptohack.org/lazy_cbc/get_flag/"
+    url += key.hex()
+    print(key.hex())
+    url += "/"
+    r = requests.get(url)
+    js = r.json()
+    print(bytes.fromhex(js["plaintext"]))
+
+cipher = bytes.fromhex("6a1ded58e43956ca18f3d8e73f30f37c0cbdcb558dfd04fe098f1a32561b5276")
+
+block1 = cipher[:16]
+block2 = cipher[16:]
+
+response(xor(block1, block2))
+```
+
