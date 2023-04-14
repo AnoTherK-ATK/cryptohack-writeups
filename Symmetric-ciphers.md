@@ -591,7 +591,7 @@ When get the hex input, cut it into 2 parts and xor them together.
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from pwn import xor
-
+import requests
 
 def response(key):
     url = "http://aes.cryptohack.org/lazy_cbc/get_flag/"
