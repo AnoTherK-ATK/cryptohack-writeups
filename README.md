@@ -1,9 +1,9 @@
-## [Introduction](Introduction.md)
+## [Introduction](Introduction/Introduction.md)
 
-## [General](General.md)
+## [General](General/General.md)
 
-## [Mathematics](Mathematics.md)
+## [Mathematics](Mathematics/Mathematics.md)
 
-## [Symmetric ciphers](Symmetric-ciphers.md)
+## [Symmetric ciphers](SymmetricCiphers/Symmetric-ciphers.md)
 
-## [RSA](RSA.md)
+## [RSA](RSA/RSA.md)

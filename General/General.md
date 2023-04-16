@@ -163,7 +163,7 @@ print(xor(cipher, key.encode()))
 ## Lemur XOR
 ### Solution
 I used photo editor to solve this challenge
-![[lemurxor.png]]
+![](lemurxor.png)
 
 ## Greatest Common Divisor
 ### Solution

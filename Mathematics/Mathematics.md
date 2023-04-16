@@ -264,4 +264,4 @@ for i in range(0, 224, 8):
 ### Solution
 Factordb for the `N` and you will get `p` and `q`
 
-![[modularbinomials.png]]
+![](modularbinomials.png)
