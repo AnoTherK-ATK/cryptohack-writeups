@@ -470,4 +470,384 @@ m = pow(c, d, n)
 print(long_to_bytes(m))
 ```
 
-##
+## Bespoke Padding
+### Solution
+[Franklin-Reiter](https://crypto.stackexchange.com/questions/30884/help-understanding-basic-franklin-reiter-related-message-attack) will do
+
+### Code
+
+Sage:
+```python
+def gcd(a, b):
+
+while b:
+
+a, b = b, a % b
+
+return a.monic()
+
+def FranklinReiter(c1, c2, e, n, a1, b1, a2, b2):
+
+P.<X> = PolynomialRing(Zmod(n))
+
+g1 = (a1*X + b1)^e - c1
+
+g2 = (a2*X + b2)^e - c2
+
+return int(-gcd(g1, g2).coefficients()[0])
+
+c1 = 2878541770875479700538980645022489052652779838963883862268026817166426417039919463236963390507307046326634703872280537467067742696639787192609769488919052545419119190066398990783581947278798037910506277397947588285998093950003094089963329770140593314668635940754481257775804384229002369671108815582459118647674550606119347487983453986281116009756152816183799880182210660978656475507140675089458058265971296259258268207468501053946378749643676641269894890364588680663491615255661967214865581346385880401292197870553292664912420303380215004099980768844056280656081194235775166437263428384802474463548807865519344521028
+
+c2 = 9358116384757608317220706970044933224234531757534430486726495081731537172532063758197094588560146034813412820720481673323181357275640282880376945873337874973608627166040471894089735428062869998336412925856834427099792181042190148866392208300871274345910645764652104826046243088695635872852698560499075328079478071928766314699067332677717903138094289636247404854454155325144516881573563576396070030232748258930392036341155059002641951617271533252090371171187191825436351873340387567232507741852632380312374845945384752378753935677949921080187872070947832676605655712908147214739222055430858304648290542768856843645161
+
+e = 11
+
+n = 16513150273488745819758318945465445929427923282220617948474026697826072849884410433840317590291164590606301920878166306100629001336979045875926362238578877426428184209782068217841561698268893281207281022882628671580544409079132228424570385789433865951296976542047938069538555185200454754405301473879058577591483273300132065945439952689462632448969760015421522358978863572507758617514279307992113676688788987384767873531588463072087737583220686506915075364580958023186096333340049114487946232564769897595127600679061991858554499358945100335619986316126901367151757694773827038242005563689706140134277497279550923802163
+
+a1 = 12971547059542234095294614655038910108921383446804620937171913894104315123703020491747060634311615668108873604447661547527993522223132139978046365817767051166630231776636365059125563542171499632449531108005444897410900841477831293648565180438324816667994353072194547726135161768865833107935141472738129346943372760468854044004065874712379448469666278516423795881542818175602189759347359757114386437400569740686015395353195882174948910859334443292433002434909568745424239403127792523066229466813140793214725997586482270739634637321902855765823212470124155976347852151938219301641131781157846722399123723376114259029831
+
+a2 = 11409457140242466819163427817479072385139033365230083718720047264434436898214384335636243055021460155275438092319802238955038605523688684385782916051156548581280516100417363773915481622407579450827246375873096305332208931991092735076355137904037100203515185779188885309077402419365710423222478825278182913737894421462042257973730289813359764845540728250586938424240047843075625738262558218714938963842910308398862881421355607305564841378461460037006115341626297306517807910746289965299025224005310222545925383605068291719567837393218166944929863737910844485524823699490307277435416628863671298960857171783974953402062
+
+b1 = 613773303374507022635125910125983319338750375401989130365990413259288154566000703324060713319607895380155378987796575897467664632420947636683945281102489734850754988807647012567280983450240026466967889841627553095079976456551370938474121254303474971902286679389596876001000910960884922282188621864881761290594293008441025880989824356804970700431082846079890191931506602887887043528887971319087988804158703119751734009927979973925960770863614397143971164317388792822866081412005500649012213609335946463233073780263602030911938670236561006470408586945289329597277998553381709448864453473541694078648267392748834582252
+
+b2 = 7245336764065642365831393452728740971259540086539413152250152735097680656770883053121301756868403120057747916744486252696211015549651622729853667084757925620818125696929068279230499982176189345006819380287349525312659226629850801073542291406883057493574547827172032691058542944679744377049745014959702974586433436512158229732186188003523586580642660072595199641524912132047912202451913864667343923032170547546966317318202888765453746148175214759547020579293565449701710859329968082044811127071473458891831112124821354298656439918625782443712556979595318257093732638944778996223990718369734263769019010362606613357004
+
+flag = FranklinReiter(c1, c2, e, n, a1, b1, a2, b2)
+
+print(bytes.fromhex(hex(flag)[2:]).decode())
+```
+
+## Null or never
+### Solution
+`Pad100(m) = m * 256^{number of 0 bytes added}`
+So, `c = pow(PAD100(FLAG), e, n) = pow(FLAG, e, n) * pow(256^57, e, n) = c_flag * c_pad`
+Bezout identity gives : `c_pad*u+n*v = GCD(c_pad,n) = 1`
+So you can use extended GCD to solve.
+Then, inverse modular n of `pow(256^57, e, n)` calculated with  gives:
+
+`r, u v = PGCD_extended(c_pad,n), with c_pad_inv = u`
+
+Then we have :
+
+`c * c_pad_inv = c_flag * c_pad * c_pad_inv = c_flag = FLAG^e mod n`
+
+`pow(FLAG_min,e) // n < pow(FLAG,e) // n < pow(FLAG_max,e) // n`
+
+`and pow(FLAG_min,e) // n = pow(FLAG_max,e) // n = 28.`
+
+`FLAG^e = c * c_pad_inv + 28 * n`
+
+calculate cube root of `(c * c_pad_inv + 28 * n)` to have the FLAG
+
+### Code
+
+```python
+from Crypto.Util.number import bytes_to_long, long_to_bytes
+
+from CryptoHack_PGCD import PGCD_extended
+
+FLAG = b"crypto{???????????????????????????????????}"
+
+FLAG_min = b"crypto{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!}"
+
+FLAG_max = b"crypto{zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz}"
+
+# nth root of n calculation. Default = square root
+
+def lrackd(n, k=2):
+
+"""racine entière kième d'un nombre entier n de taille quelconque
+
+recherche par dichotomie
+
+"""
+
+# initialisation du signe et traitement des cas particuliers
+
+signe = +1
+
+if n < 2:
+
+if n < 0:
+
+if k % 2 == 0:
+
+raise ValueError("Erreur: racine paire d'un nombre négatif")
+
+else:
+
+signe, n = -1, abs(n)
+
+else:
+
+return n # ici n = 0 ou 1
+
+# trouve rac1 et rac2 qui encadrent de plus près la valeur cherchée de la racine
+
+rac1, i = 1, 1
+
+while i <= n:
+
+rac1 <<= 1
+
+i <<= k
+
+rac2 = rac1
+
+rac1 >>= 1
+
+# calcule par dichotomie la racine r kième de n qui est entre rac1 et rac2
+
+while rac1 != rac2:
+
+r = (rac1 + rac2) >> 1
+
+rn = r ** k
+
+if rn > n:
+
+rac2 = r
+
+else:
+
+rac1 = r + 1
+
+if n - rn < 0:
+
+r -= 1
+
+# retour de la racine avec le bon signe
+
+if signe > 0:
+
+return r
+
+return -r
+
+def pad100(msg):
+
+return msg + b'\x00' * (100 - len(msg))
+
+"""
+
+key = RSA.generate(1024, e=3)
+
+n, e = key.n, key.e
+
+m = bytes_to_long(pad100(FLAG))
+
+c = pow(m, e, n)
+
+print(f"n = {n}")
+
+print(f"e = {e}")
+
+print(f"c = {c}")
+
+"""
+
+n = 95341235345618011251857577682324351171197688101180707030749869409235726634345899397258784261937590128088284421816891826202978052640992678267974129629670862991769812330793126662251062120518795878693122854189330426777286315442926939843468730196970939951374889986320771714519309125434348512571864406646232154103
+
+e = 3
+
+c = 63476139027102349822147098087901756023488558030079225358836870725611623045683759473454129221778690683914555720975250395929721681009556415292257804239149809875424000027362678341633901036035522299395660255954384685936351041718040558055860508481512479599089561391846007771856837130233678763953257086620228436828
+
+pad = 256**((100-len(FLAG)))
+
+c_pad = pow(pad,e,n)
+
+# Calcul of c_pad inverse modular with PGCD_extended
+
+r,u,v = PGCD_extended(c_pad,n)
+
+c_pad_inv = u
+
+assert (c_pad * c_pad_inv) % n == 1
+
+flag_cube = (c * c_pad_inv) % n
+
+# how many time flag_cube is modulated by n ?
+
+m = bytes_to_long(FLAG_min)
+
+c_flag_min = pow(m, e)
+
+print('c_flag_min**e/n =',c_flag_min//n)
+
+m = bytes_to_long(FLAG_max)
+
+c_flag_max = pow(m, e)
+
+print('c_flag_max**e/n =',c_flag_max//n)
+
+n_time = c_flag_min//n
+
+# calcul third root of flag_cube
+
+c_flag_decrypt = lrackd(flag_cube + n_time * n,3)
+
+print(long_to_bytes(c_flag_decrypt))
+```
+
+
+## Signing Server
+### Solution
+Read the source code.
+`get_secret` is get the ciphertext and `sign` is decrypt so you have to `get_secret` and `sign`.
+
+### Code
+
+```python
+from pwn import * # pip install pwntools
+import json
+from Crypto.Util.number import bytes_to_long, long_to_bytes
+import codecs
+import base64
+
+r = remote('socket.cryptohack.org', 13374, level = 'debug')
+
+def json_recv():
+    line = r.recvline()
+    return json.loads(line.decode())
+
+def json_send(hsh):
+    request = json.dumps(hsh).encode()
+    r.sendline(request)
+
+r.recvline()
+json_send({"option": "get_secret"})
+se = json_recv()
+print(se)
+json_send({"option": "sign", "msg": se["secret"]})
+received = json_recv()
+print(bytes.fromhex(received["signature"][2:]))
+```
+
+## Let's Decrypt
+### Solution
+Write $m$ to represent the message and $\sigma$ the signature we got. We don't care about the public key of the server, so we only reference our own public key with $N$ or $e$.
+
+$$\sigma > m \Rightarrow \sigma \equiv m \left({\mod \sigma - m}\right)$$
+
+When we then provide $\sigma$ as the signature, we have a good signature for $m$, since $\sigma\mod(\sigma−m)=\sigma−(\sigma−m)=m$, and thus, we easily obtain the parameters to use for our own public key. We wouldn't be able to decrypt anything or sign anything else without factoring $N$ (apart from the fact that $e$ is indeed $11$, so everything is trivial), but then again, we don't have to.
+
+### Code
+
+```python
+from pwn import *
+from json import dumps, loads
+from gmpy2 import next_prime
+from Crypto.Util.number import *
+import pkcs1
+
+p = int(next_prime(2^256))
+q = int(next_prime(p))
+N = p * q
+
+io = remote("socket.cryptohack.org", 13391)
+
+io.recvline()
+io.sendline(dumps({"option": "get_signature"}))
+sig = int(loads(io.recvline())["signature"], 16)
+msg = "I am Mallory own CryptoHack.org"
+digest = pkcs1.emsa_pkcs1_v15.encode(msg.encode(), 256)
+# sig * sig - N = dig
+N = sig - bytes_to_long(digest)
+e = 1
+io.sendline(dumps({"msg": msg, "N": hex(N), "e": hex(e), "option": "verify"}))
+print(loads(io.recvline())
+```
+
+## Blinding light
+### Solution
+Express `admin=True` as a long yields $m=459922107199558918501733$.
+
+Plugging this into a factorizer yields two prime factors:
+
+$p1=211578328037$ and $p2=2173767566209$, $m = p1 \times p2$
+
+Asking the server to sign each of these messages individually will yield `pow(p1, D, N)` and `pow(p2, D, N)`, and it will respond since neither of these individual messages is `admin=True` when decoded.
+
+Now, you can compute the digital signature of `admin=True` by multiplying the two signatures you got! Since `p1^D * p2^D = (p1 * p2) ^ D mod N`.
+
+### Code
+
+```python
+import json
+
+from Crypto.Util.number import bytes_to_long, long_to_bytes
+
+from pwn import *
+
+p1 = 211578328037
+
+p2 = 2173767566209
+
+conn = remote('socket.cryptohack.org', 13376)
+
+data = conn.recvline()
+
+resp = dict()
+
+resp['option'] = 'get_pubkey'
+
+conn.send(json.dumps(resp))
+
+data = json.loads(conn.recvline())
+
+N = bytes_to_long(bytes.fromhex(data['N'][2:]))
+
+resp = dict()
+
+resp['option'] = 'sign'
+
+resp['msg'] = long_to_bytes(p1).hex()
+
+conn.send(json.dumps(resp))
+
+data = json.loads(conn.recvline())
+
+s1 = bytes_to_long(bytes.fromhex(data['signature'][2:]))
+
+resp = dict()
+
+resp['option'] = 'sign'
+
+resp['msg'] = long_to_bytes(p2).hex()
+
+conn.send(json.dumps(resp))
+
+data = json.loads(conn.recvline())
+
+s2 = bytes_to_long(bytes.fromhex(data['signature'][2:]))
+
+signature = (s1 * s2) % N
+
+resp = dict()
+
+resp['option'] = 'verify'
+
+resp['msg'] = b'admin=True'.hex()
+
+resp['signature'] = long_to_bytes(signature).hex()
+
+conn.send(json.dumps(resp))
+
+data = json.loads(conn.recvline())
+
+print(data['response'])
+```
+
+## Vote for Pedro
+### Solution
+First, we notice that Pedro isn't particularly strict with the format of the padding: anything before the last null byte gets discarded. This means we can add any multiple of $2^{120}$ to the message, and it will still be valid. So the message is of the form $a \times 2^{120} + k$, where $k$ is `bytes_to_long(b"VOTE FOR PEDRO")` and $a$ is any integer. So if the signature is $x$, then we want $x^3 \equiv k (\mod 2^{120})$ This cube root is quite easy to take with Sage: `x = mod(k, 2^120).nth_root(3)`. Now, this works as the signature because the public modulus $N$ is way bigger than $2^{120}$. $x^3$ is only around 360 bits long, while the modulus is 2048 bits. So $x^3$ will not overflow the modulus, and $x$ is our answer. Sending that to Pedro gets us the flag.
+
+### Code
+
+```python
+bytes2long = lambda x: int.from_bytes(x, 'big')
+
+x = mod(bytes2long(b"VOTE FOR PEDRO"), 2**120).nth_root(3)
+
+print('{' + f'"option":"vote","vote":"{hex(x)[2:]}"' + '}')
+```
