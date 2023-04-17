@@ -284,3 +284,9 @@ enc = RSA.importKey(key)
 print(enc.n)
 ```
 
+## Transparency
+### Solution
+The challenge want us to find the subdomain, so we can use [this website](https://subdomains.whoisxmlapi.com/) to find all subdomains of cryptohack
+
+![](transparency.png)
+See anything sus?
