@@ -194,9 +194,11 @@ while(m != 0):
 
 ## Find the Lattice
 ### Solution
+crypto{Gauss_lattice_attack!}
 
 ## Backpack Cryptography
 ### Solution 
+crypto{my_kn4ps4ck_1s_l1ghtw31ght}
 
 ## Successive Powers
 ### Solution
