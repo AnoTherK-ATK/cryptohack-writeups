@@ -192,6 +192,12 @@ while(m != 0):
     v2 = v2 - m*v1
 ```
 
+## Find the Lattice
+### Solution
+
+## Backpack Cryptography
+### Solution 
+
 ## Successive Powers
 ### Solution
 `s = [588, 665, 216, 113, 642, 4, 836, 114, 851, 492, 819, 237]`
@@ -288,3 +294,23 @@ for a in sqrt_mod(ct, n, all_roots=True):
                     continue
 ```
 
+## No Way Back Home
+### Solution
+
+## Ellipse Curve Cryptography
+### Solution
+
+## Roll your Own
+### Solution
+
+## Unencryptable
+### Solution
+
+## Cofactor Cofantasy
+### Solution
+
+## Real Eisenstein
+### Solution
+
+## Prime and Prejudice
+### Solution
