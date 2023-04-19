@@ -252,6 +252,7 @@ for i in range(0, 224, 8):
     binary = cipher[i:i + 8]
     print(chr(int(binary,2)),end="")
 ```
+crypto{p4tterns_1n_re5idu3s}
 
 ## Modular Binomials
 ### Solution
@@ -280,6 +281,7 @@ for a in sqrt_mod(ct, n, all_roots=True):
                 except:
                     continue
 ```
+crypto{m0dul4r_squ4r3_r00t}
 
 ## No Way Back Home
 ### Solution
