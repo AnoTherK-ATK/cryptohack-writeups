@@ -311,6 +311,7 @@ print(long_to_bytes(pt))
 
 ## Cofactor Cofantasy
 ### Solution
+crypto{0ver3ng1neering_ch4lleng3_s0lution$}
 
 ## Real Eisenstein
 ### Solution
