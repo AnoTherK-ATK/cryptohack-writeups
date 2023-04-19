@@ -205,26 +205,11 @@ crypto{my_kn4ps4ck_1s_l1ghtw31ght}
 `s = [588, 665, 216, 113, 642, 4, 836, 114, 851, 492, 819, 237]`
 
 We know that
-$$
-\begin{align*}
-{s_0} \cdot x &\equiv {s_1}\left( {\bmod p} \right)\\
-{s_1} \cdot x &\equiv {s_2}\left( {\bmod p} \right)\\
-{s_2} \cdot x &\equiv {s_3}\left( {\bmod p} \right)\\
- &\;\;\vdots \\
-{s_{10}} \cdot x &\equiv {s_{11}}\left( {\bmod p} \right)
-\end{align*}
-$$
+$$\begin{align*}{s_0} \cdot x &\equiv {s_1}\left( {\bmod p} \right)\\{s_1} \cdot x &\equiv {s_2}\left( {\bmod p} \right)\\{s_2} \cdot x &\equiv {s_3}\left( {\bmod p} \right)\\&\;\;\vdots \\{s_{10}} \cdot x &\equiv {s_{11}}\left( {\bmod p} \right)\end{align*}$$
+
 $\Leftrightarrow$
 
-$$
-\begin{align*}
-x &\equiv {s_1} \cdot {s_0}^{ - 1}\left( {\bmod p} \right)\\
-x &\equiv {s_2} \cdot {s_1}^{ - 1}\left( {\bmod p} \right)\\
-x &\equiv {s_3} \cdot {s_2}^{ - 1}\left( {\bmod p} \right)\\
- &\;\;\vdots \\
-x &\equiv {s_{11}} \cdot {s_{10}}^{ - 1}\left( {\bmod p} \right)
-\end{align*}
-$$
+$$\begin{align*}x &\equiv {s_1} \cdot {s_0}^{ - 1}\left( {\bmod p} \right)\\x &\equiv {s_2} \cdot {s_1}^{ - 1}\left( {\bmod p} \right)\\x &\equiv {s_3} \cdot {s_2}^{ - 1}\left( {\bmod p} \right)\\&\;\;\vdots \\x &\equiv {s_{11}} \cdot {s_{10}}^{ - 1}\left( {\bmod p} \right)\end{align*}$$
 Given `p` is three-digit number, you can brute force `p` to sovle `x`
 
 ### Code
