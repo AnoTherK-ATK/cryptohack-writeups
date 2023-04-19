@@ -315,6 +315,7 @@ crypto{0ver3ng1neering_ch4lleng3_s0lution$}
 
 ## Real Eisenstein
 ### Solution
+crypto{r34l_t0_23D_m4p}
 
 ## Prime and Prejudice
 ### Solution
