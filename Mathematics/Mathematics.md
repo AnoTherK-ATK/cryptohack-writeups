@@ -192,31 +192,24 @@ while(m != 0):
     v2 = v2 - m*v1
 ```
 
+## Find the Lattice
+### Solution
+crypto{Gauss_lattice_attack!}
+
+## Backpack Cryptography
+### Solution 
+crypto{my_kn4ps4ck_1s_l1ghtw31ght}
+
 ## Successive Powers
 ### Solution
 `s = [588, 665, 216, 113, 642, 4, 836, 114, 851, 492, 819, 237]`
 
 We know that
-$$
-\begin{align*}
-{s_0} \cdot x &\equiv {s_1}\left( {\bmod p} \right)\\
-{s_1} \cdot x &\equiv {s_2}\left( {\bmod p} \right)\\
-{s_2} \cdot x &\equiv {s_3}\left( {\bmod p} \right)\\
- &\;\;\vdots \\
-{s_{10}} \cdot x &\equiv {s_{11}}\left( {\bmod p} \right)
-\end{align*}
-$$
+$$\begin{align*}{s_0} \cdot x &\equiv {s_1}\left( {\bmod p} \right)\\{s_1} \cdot x &\equiv {s_2}\left( {\bmod p} \right)\\{s_2} \cdot x &\equiv {s_3}\left( {\bmod p} \right)\\&\;\;\vdots \\{s_{10}} \cdot x &\equiv {s_{11}}\left( {\bmod p} \right)\end{align*}$$
+
 $\Leftrightarrow$
 
-$$
-\begin{align*}
-x &\equiv {s_1} \cdot {s_0}^{ - 1}\left( {\bmod p} \right)\\
-x &\equiv {s_2} \cdot {s_1}^{ - 1}\left( {\bmod p} \right)\\
-x &\equiv {s_3} \cdot {s_2}^{ - 1}\left( {\bmod p} \right)\\
- &\;\;\vdots \\
-x &\equiv {s_{11}} \cdot {s_{10}}^{ - 1}\left( {\bmod p} \right)
-\end{align*}
-$$
+$$\begin{align*}x &\equiv {s_1} \cdot {s_0}^{ - 1}\left( {\bmod p} \right)\\x &\equiv {s_2} \cdot {s_1}^{ - 1}\left( {\bmod p} \right)\\x &\equiv {s_3} \cdot {s_2}^{ - 1}\left( {\bmod p} \right)\\&\;\;\vdots \\x &\equiv {s_{11}} \cdot {s_{10}}^{ - 1}\left( {\bmod p} \right)\end{align*}$$
 Given `p` is three-digit number, you can brute force `p` to sovle `x`
 
 ### Code
@@ -259,6 +252,7 @@ for i in range(0, 224, 8):
     binary = cipher[i:i + 8]
     print(chr(int(binary,2)),end="")
 ```
+crypto{p4tterns_1n_re5idu3s}
 
 ## Modular Binomials
 ### Solution
@@ -287,4 +281,41 @@ for a in sqrt_mod(ct, n, all_roots=True):
                 except:
                     continue
 ```
+crypto{m0dul4r_squ4r3_r00t}
 
+## No Way Back Home
+### Solution
+
+## Ellipse Curve Cryptography
+### Solution
+
+## Roll your Own
+### Solution
+
+## Unencryptable
+### Solution
+```py 
+from Crypto.Util.number import inverse, long_to_bytes
+
+N = 0x7fe8cafec59886e9318830f33747cafd200588406e7c42741859e15994ab62410438991ab5d9fc94f386219e3c27d6ffc73754f791e7b2c565611f8fe5054dd132b8c4f3eadcf1180cd8f2a3cc756b06996f2d5b67c390adcba9d444697b13d12b2badfc3c7d5459df16a047ca25f4d18570cd6fa727aed46394576cfdb56b41
+e = 0x10001
+ct = 0x5233da71cc1dc1c5f21039f51eb51c80657e1af217d563aa25a8104a4e84a42379040ecdfdd5afa191156ccb40b6f188f4ad96c58922428c4c0bc17fd5384456853e139afde40c3f95988879629297f48d0efa6b335716a4c24bfee36f714d34a4e810a9689e93a0af8502528844ae578100b0188a2790518c695c095c9d677b
+
+p, q = 8239835397208516111720362847949425401045672365829937602117480449316694558226622200110057535873802132963548914201468383545676262090246827792522994758916609, 10900824353334471830007307529937357926160386461967884446160315218630687793341471079170750548554707926611542019859296605188535413447791710067186432371970369
+phi = (p - 1) * (q - 1)
+d = inverse(e, phi)
+
+pt = pow(ct, d, N)
+print(long_to_bytes(pt))
+```
+
+## Cofactor Cofantasy
+### Solution
+crypto{0ver3ng1neering_ch4lleng3_s0lution$}
+
+## Real Eisenstein
+### Solution
+crypto{r34l_t0_23D_m4p}
+
+## Prime and Prejudice
+### Solution
